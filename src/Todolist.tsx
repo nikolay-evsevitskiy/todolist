@@ -1,5 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {TasksType, FilterType} from './App';
+import {AddItemForm} from "./AddItemForm";
 
 type PropsType = {
     id: string
@@ -15,26 +16,13 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-    let [title, setTitle] = useState('')
-    let [error, setError] = useState<string | null>(null)
-    const addTask = () => {
-        if (title.trim() !== '') {
+    const addTask = (title: string) => {
             props.addTask(title, props.id)
-            setTitle('')
-        } else {
-            setError('Title is required!');
         }
+    const removeTodolistHandler = () => {
+        props.removeTodolist(props.id)
+    }
 
-    }
-    const onChaneHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.charCode === 13) {
-            addTask();
-        }
-    }
     const onAllClickHandler = () => {
         props.filterTasks('all', props.id)
     }
@@ -44,9 +32,7 @@ export function Todolist(props: PropsType) {
     const onCompletedClickHandler = () => {
         props.filterTasks('completed', props.id)
     }
-    const removeTodolistHandler = () => {
-        props.removeTodolist(props.id)
-    }
+
 
     return (
         <div className='Block'>
@@ -54,16 +40,7 @@ export function Todolist(props: PropsType) {
             <h3>{props.title}
                 <button onClick={removeTodolistHandler}>X</button>
             </h3>
-
-            <div>
-                <input value={title}
-                       onChange={onChaneHandler}
-                       onKeyPress={onKeyPressHandler}
-                       className={error ? 'error' : ''}
-                />
-                <button onClick={addTask}>+</button>
-                {error && <div className="error-message">{error}</div>}
-            </div>
+            <AddItemForm addItem={addTask}/>
             <ul>
                 {
                     props.tasks.map(t => {
