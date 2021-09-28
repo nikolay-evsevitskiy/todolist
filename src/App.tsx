@@ -16,12 +16,12 @@ export type TodolistType = {
     title: string
     filter: FilterType
 }
-type TaskStateType = {[key: string]: Array<TasksType>}
+type TaskStateType = { [key: string]: Array<TasksType> }
 
 function App() {
 
-    function addTodolist ( title: string ) {
-        let  newTodolistId = v1()
+    function addTodolist(title: string) {
+        let newTodolistId = v1()
         let newTodolist: TodolistType = {
             id: newTodolistId,
             title: title,
@@ -77,6 +77,14 @@ function App() {
             setTasks({...tasks})
         }
 
+    }
+
+    function onChangeTodolistTitle(todolistId: string, newValue: string) {
+        let todolist = todolists.find(t => t.id === todolistId)
+        if (todolist) {
+            todolist.title = newValue
+            setTodolists([...todolists])
+        }
     }
 
 
@@ -137,6 +145,7 @@ function App() {
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
                         onChange={onChange}
+                        onChangeTodolistTitle={onChangeTodolistTitle}
                     />
 
                 })
