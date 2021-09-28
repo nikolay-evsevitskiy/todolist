@@ -69,6 +69,16 @@ function App() {
         }
     }
 
+    function onChange(id: string, todolistId: string, newValue: string) {
+        let todolistTask = tasks[todolistId]
+        let task = todolistTask.find(t => t.id === id)
+        if (task) {
+            task.title = newValue
+            setTasks({...tasks})
+        }
+
+    }
+
 
     let todolistId1 = v1();
     let todolistId2 = v1();
@@ -126,6 +136,7 @@ function App() {
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
+                        onChange={onChange}
                     />
 
                 })
