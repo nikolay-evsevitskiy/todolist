@@ -13,3 +13,10 @@
 .is-done {
   opacity: 0.5;
 }
+.App{
+  margin: 40px 40px;
+
+}
+li{
+  list-style-type: none;
+}
