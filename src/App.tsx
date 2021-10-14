@@ -8,20 +8,17 @@ import {Menu} from "@material-ui/icons";
 
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
-
 export type TasksType = {
     id: string
     title: string
     isDone: boolean
 }
-
 export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
-
-type TaskStateType = { [key: string]: Array<TasksType> }
+export type TaskStateType = { [key: string]: Array<TasksType> }
 
 
 function App() {
