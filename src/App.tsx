@@ -22,6 +22,34 @@ export type TaskStateType = { [key: string]: Array<TasksType> }
 
 
 function App() {
+    let todolistId1 = v1();
+    let todolistId2 = v1();
+    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+        {
+            id: todolistId1,
+            title: "What to learn",
+            filter: 'all'
+        },
+        {
+            id: todolistId2,
+            title: "What to bye",
+            filter: 'all'
+        }
+    ])
+    let [tasks, setTasks] = useState<TaskStateType>({
+        [todolistId1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'Graph QL', isDone: false}
+        ],
+        [todolistId2]: [
+            {id: v1(), title: 'Milk', isDone: true},
+            {id: v1(), title: 'React Book', isDone: true}
+        ]
+    })
+
 
     function addTodolist(title: string) {
         let newTodolistId = v1()
@@ -89,33 +117,7 @@ function App() {
         }
     }
 
-    let todolistId1 = v1();
-    let todolistId2 = v1();
-    let [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {
-            id: todolistId1,
-            title: "What to learn",
-            filter: 'all'
-        },
-        {
-            id: todolistId2,
-            title: "What to bye",
-            filter: 'all'
-        }
-    ])
-    let [tasks, setTasks] = useState<TaskStateType>({
-        [todolistId1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false},
-            {id: v1(), title: 'Rest API', isDone: false},
-            {id: v1(), title: 'Graph QL', isDone: false}
-        ],
-        [todolistId2]: [
-            {id: v1(), title: 'Milk', isDone: true},
-            {id: v1(), title: 'React Book', isDone: true}
-        ]
-    })
+
 
     return (
         <div className="App">
@@ -162,7 +164,7 @@ function App() {
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
                                         filter={tl.filter}
-                                        onChange={onChange}
+                                        onChangeTaskTitle={onChange}
                                         onChangeTodolistTitle={onChangeTodolistTitle}
                                     />
                                 </Paper>
