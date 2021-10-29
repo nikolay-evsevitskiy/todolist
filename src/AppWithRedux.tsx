@@ -92,8 +92,7 @@ function AppWithRedux() {
                         let allTodolistTasks = tasks[tl.id]
                         let tasksForToDoList = allTodolistTasks
 
-
-                        return <Grid item>
+                        return <Grid item key={tl.id}>
                             <Paper style={{padding: '10px'}}>
                                 <Todolist
                                     key={tl.id}

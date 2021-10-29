@@ -21,6 +21,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         let newIsDoneValue = e.currentTarget.checked;
         props.changeTaskStatus(props.taskId, newIsDoneValue, props.TodolistId);
     }
+
     const onTitleChangeHandler = useCallback((newValue: string) => {
         props.onChangeTaskTitle(props.taskId, props.TodolistId, newValue)
     },[props.onChangeTaskTitle, props.taskId, props.TodolistId])
