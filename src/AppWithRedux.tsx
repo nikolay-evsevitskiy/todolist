@@ -89,8 +89,7 @@ function AppWithRedux() {
                 {
 
                     todolists.map(tl => {
-                        let allTodolistTasks = tasks[tl.id]
-                        let tasksForToDoList = allTodolistTasks
+                        let tasksForToDoList = tasks[tl.id]
 
                         return <Grid item key={tl.id}>
                             <Paper style={{padding: '10px'}}>
