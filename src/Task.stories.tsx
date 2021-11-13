@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
+import {TaskStatuses} from "./api/todolists-api";
 
 
 export default {
@@ -28,13 +29,13 @@ const Template: ComponentStory<typeof Task> = (args) => {
 export const TaskIsDoneStory = Template.bind({});
 
 TaskIsDoneStory.args = {
-    isDone: true,
+    status: TaskStatuses.Completed,
     title: 'JS',
 };
 
 export const TaskIsNotDoneStory = Template.bind({});
 
 TaskIsNotDoneStory.args = {
-    isDone: false,
+    status: TaskStatuses.Completed,
     title: 'HTML',
 };
