@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
-import {TaskStatuses} from "./api/todolists-api";
+import {TaskStatuses, TodoTaskPriorities} from "./api/todolists-api";
 
 
 export default {
@@ -19,9 +19,15 @@ export default {
 } as ComponentMeta<typeof Task>;
 
 const Template: ComponentStory<typeof Task> = (args) => {
-    const [task, setTask] = useState({id: '1', title: 'JSww', isDone: true})
+    const [task, setTask] = useState({
+        id: '1', title: 'JSww', status: TaskStatuses.Completed, todoListId: "todolistId1", startDate: '',
+        deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+    })
 
-    const changeStatus = () => setTask({id: '1', title: 'JSww', isDone: !task.isDone})
+    const changeStatus = () => setTask({
+        id: '1', title: 'JSww', status: TaskStatuses.New, todoListId: "todolistId1", startDate: '',
+        deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+    })
     const newArgs = {...args, task, changeTaskStatus: changeStatus}
     return <Task {...newArgs} />;
 }
