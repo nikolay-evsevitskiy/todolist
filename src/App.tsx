@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {TaskStatuses, TaskType, TodoTaskPriorities} from "./api/todolists-api";
+import {TaskStatuses, TaskType, todolistsAPI, TodoTaskPriorities} from "./api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
 
 
@@ -13,6 +13,7 @@ export type TaskStateType = { [key: string]: Array<TaskType> }
 
 
 function App() {
+
     let todolistId1 = v1();
     let todolistId2 = v1();
     let [todolists, setTodolists] = useState<Array<TodolistDomainType>>([
