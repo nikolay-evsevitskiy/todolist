@@ -1,5 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {TextField, IconButton} from "@material-ui/core";
+import {TextField} from "@mui/material";
+import IconButton from "@mui/material/IconButton/IconButton";
+
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void

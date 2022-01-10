@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
+import {Todolist} from '../Todolist';
 import {v1} from 'uuid';
-import {AddItemForm} from "./AddItemForm/AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
-import {TaskStatuses, TaskType, todolistsAPI, TodoTaskPriorities} from "./api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
+import {FilterValuesType, TodolistDomainType} from "../state/todolists-reducer";
+import {AppBar, Button, Container, Grid, Menu, Paper, Toolbar, Typography} from "@mui/material";
+import IconButton from "@mui/material/IconButton/IconButton";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -145,7 +145,7 @@ function App() {
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
+                        <Menu open/>
                     </IconButton>
                     <Typography variant="h6" color="inherit" component="div">
                         News

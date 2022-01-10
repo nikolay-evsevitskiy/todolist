@@ -6,10 +6,12 @@ import {tasksReducer} from "../../state/tasks-reducer";
 import {todolistsReducer} from "../../state/todolists-reducer";
 import {AppRootStateType} from "../../state/store";
 import {TaskStatuses, TodoTaskPriorities} from "../../api/todolists-api";
+import {appReducer} from "../../app/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 const initialGlobalState: AppRootStateType = {
@@ -38,7 +40,8 @@ const initialGlobalState: AppRootStateType = {
                 deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
             }
         ]
-    }
+    },
+    app: {status: 'loading'}
 };
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState);

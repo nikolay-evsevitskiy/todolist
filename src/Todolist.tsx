@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "./AddItemForm/AddItemForm";
-import {EditableSpan} from "./EditableSpan";
-import {Button, IconButton} from '@material-ui/core';
-import {Delete} from '@material-ui/icons'
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 import {Task} from "./Task";
 import {FilterValuesType} from "./state/todolists-reducer";
 import {TaskStatuses} from "./api/todolists-api";
 import {useDispatch} from "react-redux";
 import {fetchTaskTC} from "./state/tasks-reducer";
 import {TaskType} from "./api/todolists-api";
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton/IconButton';
 
 type PropsType = {
     id: string
@@ -22,6 +22,10 @@ type PropsType = {
     filter: FilterValuesType
     onChangeTaskTitle: (id: string, todolistId: string, newValue: string) => void
     onChangeTodolistTitle: (todolistId: string, newValue: string) => void
+}
+
+function Delete() {
+    return null;
 }
 
 export const Todolist = React.memo((props: PropsType) => {

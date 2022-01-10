@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {UpdateTaskModelType, todolistsAPI} from "../api/todolists-api";
 
 export default {
@@ -9,7 +9,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     const CallbackFunc = () => {
-        todolistsAPI.getTodolists()
+        todolistsAPI.getTodoLists()
             .then((response) => {
                 setState(response.data)
             })
@@ -150,11 +150,11 @@ export const UpdateTask = () => {
     const [taskId, setTaskId] = useState<string>('')
     const [model, setModel] = useState<UpdateTaskModelType>({
         title: '',
-        description: null,
+        description: '',
         status: 0,
         priority: 2,
-        startDate: null,
-        deadline: null
+        startDate: '',
+        deadline: ''
     })
     const callbackFunc = () => {
         todolistsAPI.updateTask(todolistId, taskId, model)

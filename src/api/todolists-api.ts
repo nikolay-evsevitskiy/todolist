@@ -1,12 +1,5 @@
 import axios from "axios";
 
-export type TodolistType = {
-    id: string
-    title: string
-    addedDate: string
-    order: number
-}
-
 export enum TaskStatuses {
     New,
     InProgress,
@@ -22,6 +15,12 @@ export enum TodoTaskPriorities {
     Later
 }
 
+export type TodolistType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+}
 export type TaskType = {
     description: string
     title: string
@@ -46,11 +45,11 @@ type GetTasksResponseType = {
 }
 export type UpdateTaskModelType = {
     title: string
-    description: string | null
+    description: string
     status: TaskStatuses
     priority: TodoTaskPriorities
-    startDate: string | null
-    deadline: string | null
+    startDate: string
+    deadline: string
 }
 
 const instance = axios.create({
@@ -62,12 +61,11 @@ const instance = axios.create({
 })
 
 export const todolistsAPI = {
-    getTodolists() {
+    getTodoLists() {
         return instance.get<TodolistType[]>('todo-lists')
     },
     createTodolist(title: string) {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title})
-
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)

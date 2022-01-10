@@ -1,9 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
-import {AddItemForm} from "./AddItemForm/AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
+import {Todolist} from '../Todolist';
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -11,16 +9,18 @@ import {
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType, updateTodolistTitleTC,
-} from "./state/todolists-reducer";
+} from "../state/todolists-reducer";
 import {
     addTaskTC,
-    changeTaskStatusTC,
-    changeTaskTitleTC,
-    removeTaskTC
-} from "./state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from './state/store';
-import {TaskStatuses, TaskType} from './api/todolists-api';
+    removeTaskTC, updateTaskTC
+} from "../state/tasks-reducer";
+import {useDispatch} from "react-redux";
+import {useAppSelector} from '../state/store';
+import {TaskStatuses, TaskType} from '../api/todolists-api';
+import {RequestStatusType} from "./app-reducer";
+import {AppBar, Container, Grid, LinearProgress, Menu, Paper, Toolbar, Typography} from "@mui/material";
+import IconButton from "@mui/material/IconButton/IconButton";
+import Button from "@mui/material/Button";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -28,8 +28,9 @@ export type TaskStateType = { [key: string]: Array<TaskType> }
 export default AppWithRedux;
 
 function AppWithRedux() {
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
+    const tasks = useAppSelector<TaskStateType>(state => state.tasks)
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -48,14 +49,14 @@ function AppWithRedux() {
         dispatch(removeTodolistTC(id))
     }, [dispatch])
     const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(changeTaskStatusTC(id, todolistId, status))
+        dispatch(updateTaskTC(id, todolistId, {status}))
     }, [dispatch])
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         const action = changeTodolistFilterAC(todolistId, value)
         dispatch(action)
     }, [dispatch])
     const changeTaskTitle = useCallback((id: string, todolistId: string, newValue: string) => {
-        dispatch(changeTaskTitleTC(id, todolistId, newValue))
+        dispatch(updateTaskTC(id, todolistId, {title: newValue}))
     }, [dispatch])
     const onChangeTodolistTitle = useCallback((todolistId: string, newValue: string) => {
         dispatch(updateTodolistTitleTC(todolistId, newValue))
@@ -66,13 +67,14 @@ function AppWithRedux() {
         <AppBar position="static">
             <Toolbar variant="dense">
                 <IconButton edge="start" color="inherit" aria-label="menu">
-                    <Menu/>
+                    <Menu open/>
                 </IconButton>
                 <Typography variant="h6" color="inherit" component="div">
                     News
                 </Typography>
                 <Button color='inherit'>Login</Button>
             </Toolbar>
+            {status === 'loading' && <LinearProgress color={'secondary'}/>}
         </AppBar>
         <Container fixed>
             <Grid container style={{padding: '20px'}}>
