@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {UpdateTaskModelType, todolistsAPI} from "../api/todolists-api";
+import {UpdateTaskModelType, todolistsApi} from "../api/todolists-api";
 
 export default {
     title: 'API'
@@ -9,7 +9,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     const CallbackFunc = () => {
-        todolistsAPI.getTodoLists()
+        todolistsApi.getTodoLists()
             .then((response) => {
                 setState(response.data)
             })
@@ -24,7 +24,7 @@ export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     const [title, setTitle] = useState<string>('')
     const CallbackFunc = () => {
-        todolistsAPI.createTodolist(title)
+        todolistsApi.createTodolist(title)
             .then((response) => {
                 setState(response.data)
             })
@@ -42,7 +42,7 @@ export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     const [todolistId, settodolistId] = useState<string>('')
     const CallbackFunc = () => {
-        todolistsAPI.deleteTodolist(todolistId)
+        todolistsApi.deleteTodolist(todolistId)
             .then((response) => {
                 setState(response.data)
             })
@@ -61,7 +61,7 @@ export const UpdateTodolistTitle = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const CallBackFunc = () => {
-        todolistsAPI.updateTodolist(todolistId, title)
+        todolistsApi.updateTodolist(todolistId, title)
             .then((response) => {
                 setState(response.data)
             })
@@ -84,7 +84,7 @@ export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
     const [todolistId, setTodolistId] = useState<string>('')
     const callbackFunc = () => {
-        todolistsAPI.getTasks(todolistId)
+        todolistsApi.getTasks(todolistId)
             .then((response) => {
                 setState(response.data)
             })
@@ -103,7 +103,7 @@ export const DeleteTask = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
     const callbackFunc = () => {
-        todolistsAPI.deleteTask(todolistId, taskId)
+        todolistsApi.deleteTask(todolistId, taskId)
             .then((response) => {
                 setState(response)
             })
@@ -125,7 +125,7 @@ export const CreateTask = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const CreateCallback = () => {
-        todolistsAPI.createTask(todolistId, title)
+        todolistsApi.createTask(todolistId, title)
             .then((res) => {
                 setState(res.data)
             })
@@ -157,7 +157,7 @@ export const UpdateTask = () => {
         deadline: ''
     })
     const callbackFunc = () => {
-        todolistsAPI.updateTask(todolistId, taskId, model)
+        todolistsApi.updateTask(todolistId, taskId, model)
             .then((response) => {
                 setState(response)
             })
