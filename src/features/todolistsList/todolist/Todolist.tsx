@@ -9,6 +9,7 @@ import {fetchTaskTC} from "./task/tasks-reducer";
 import {TaskType} from "../../../api/todolists-api";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
+import {Delete} from "@mui/icons-material";
 
 type PropsType = {
     id: string
@@ -24,9 +25,6 @@ type PropsType = {
     onChangeTodolistTitle: (todolistId: string, newValue: string) => void
 }
 
-function Delete() {
-    return null;
-}
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log("Todolist called")
@@ -71,7 +69,7 @@ export const Todolist = React.memo((props: PropsType) => {
             <h3>
                 <EditableSpan value={props.title} onChange={onChangeTodolistTitle}/>
                 <IconButton onClick={removeTodolistHandler}>
-                    <Delete/>
+                    <Delete />
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>

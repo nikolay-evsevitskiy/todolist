@@ -4,9 +4,9 @@ import {combineReducers, createStore} from 'redux'
 import {v1} from 'uuid'
 import {tasksReducer} from "../../features/todolistsList/todolist/task/tasks-reducer";
 import {todolistsReducer} from "../../features/todolistsList/todolist/todolists-reducer";
-import {AppRootStateType} from "../../state/store";
+import {AppRootStateType} from "../../app/store";
 import {TaskStatuses, TodoTaskPriorities} from "../../api/todolists-api";
-import {appReducer} from "../../state/app-reducer";
+import {appReducer} from "../../app/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -41,7 +41,9 @@ const initialGlobalState: AppRootStateType = {
             }
         ]
     },
-    app: {status: 'loading'}
+    app: {status: 'loading',
+        error: null
+    }
 };
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState);

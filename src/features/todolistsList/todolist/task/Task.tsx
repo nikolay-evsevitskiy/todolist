@@ -3,6 +3,7 @@ import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {TaskStatuses} from "../../../../api/todolists-api";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Checkbox} from "@mui/material";
+import {Delete} from '@mui/icons-material';
 
 type TaskPropsType = {
     title: string
@@ -15,9 +16,6 @@ type TaskPropsType = {
 
 }
 
-function Delete() {
-    return null;
-}
 
 export const Task = React.memo((props: TaskPropsType) => {
     const onClickHandler = () => {
