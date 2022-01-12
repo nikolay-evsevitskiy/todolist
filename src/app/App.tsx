@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {useAppSelector} from './store';
+import {AppRootStateType} from './store';
 import {TaskType} from '../api/todolists-api';
 import {AppBar, LinearProgress, Menu, Toolbar, Typography, Container} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import {TodolistsList} from "../features/todolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
 import {RequestStatusType} from "./app-reducer";
+import {useSelector} from "react-redux";
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
 type PropsType = {
@@ -17,7 +18,7 @@ type PropsType = {
 export default App;
 
 function App({demo = false}: PropsType) {
-    const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
 
     return (<div className="App">
             <ErrorSnackbar/>
