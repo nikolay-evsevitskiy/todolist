@@ -22,14 +22,16 @@ function App() {
             title: "What to learn",
             filter: 'all',
             addedDate: '',
-            order: 0
+            order: 0,
+            entityStatus: 'idle'
         },
         {
             id: todolistId2,
             title: "What to bye",
             filter: 'all',
             addedDate: '',
-            order: 0
+            order: 0,
+            entityStatus: 'idle'
         }
     ])
     let [tasks, setTasks] = useState<TaskStateType>({
@@ -75,7 +77,8 @@ function App() {
             title: title,
             filter: 'all',
             addedDate: '',
-            order: 0
+            order: 0,
+            entityStatus: 'idle'
         }
         setTodolists([newTodolist, ...todolists])
         setTasks({...tasks, [newTodolistId]: []})
@@ -175,16 +178,14 @@ function App() {
                             return <Grid item>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist
+                                        todolist={tl}
                                         key={tl.id}
-                                        id={tl.id}
-                                        title={tl.title}
                                         tasks={tasksForToDoList}
                                         removeTask={removeTask}
                                         removeTodolist={removeTodolist}
                                         filterTasks={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
-                                        filter={tl.filter}
                                         onChangeTaskTitle={onChange}
                                         onChangeTodolistTitle={onChangeTodolistTitle}
                                     />

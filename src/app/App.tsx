@@ -7,15 +7,17 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import Button from "@mui/material/Button";
 import {TodolistsList} from "../features/todolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {StatusType} from "./app-reducer";
-
+import {RequestStatusType} from "./app-reducer";
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
+type PropsType = {
+    demo?: boolean
+}
 
 export default App;
 
-function App() {
-    const status = useAppSelector<StatusType>(state => state.app.status)
+function App({demo = false}: PropsType) {
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
 
     return (<div className="App">
             <ErrorSnackbar/>
@@ -32,7 +34,7 @@ function App() {
                 {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
         </div>
     )
