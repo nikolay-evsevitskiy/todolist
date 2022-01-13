@@ -10,11 +10,12 @@ import {TaskType} from "../../../api/todolists-api";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
 import {Delete} from "@mui/icons-material";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 type PropsType = {
     todolist: TodolistDomainType
     tasks: Array<TaskType>
-    removeTask: (taskId: string, todolistId: string) => void
+    removeTask: (taskId: string, newValue: RequestStatusType, todolistId: string) => void
     removeTodolist: (id: string) => void
     filterTasks: (value: FilterValuesType, todolistId: string) => void
     addTask: (newTitle: string, todolistId: string) => void
@@ -25,7 +26,7 @@ type PropsType = {
 }
 
 
-export const Todolist = React.memo(({demo = false,...props}: PropsType) => {
+export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
     console.log("Todolist called")
 
     const dispatch = useDispatch()
@@ -60,19 +61,18 @@ export const Todolist = React.memo(({demo = false,...props}: PropsType) => {
     let tasksForTodolist = props.tasks
     if (props.todolist.filter === 'active') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
-
     }
     if (props.todolist.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
-
     }
     return (
         <div className='Block'>
 
             <h3>
-                <EditableSpan value={props.todolist.title} onChange={onChangeTodolistTitle}/>
+                <EditableSpan value={props.todolist.title} onChange={onChangeTodolistTitle}
+                              disabled={props.todolist.entityStatus === 'loading'}/>
                 <IconButton onClick={removeTodolistHandler} disabled={props.todolist.entityStatus === 'loading'}>
-                    <Delete />
+                    <Delete/>
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
@@ -88,6 +88,8 @@ export const Todolist = React.memo(({demo = false,...props}: PropsType) => {
                                       removeTask={props.removeTask}
                                       changeTaskStatus={props.changeTaskStatus}
                                       onChangeTaskTitle={props.onChangeTaskTitle}
+                                      entityStatus={props.todolist.entityStatus}
+                                      entityTaskStatus={t.entityTaskStatus}
                                 />
                             </>
                         }

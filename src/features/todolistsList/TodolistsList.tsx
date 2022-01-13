@@ -16,6 +16,7 @@ import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./todolist/Todolist";
 import {TaskStateType} from "../../app/App";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -38,8 +39,8 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
     const addTask = useCallback((newTitle: string, todolistId: string) => {
         dispatch(addTaskTC(todolistId, newTitle))
     }, [dispatch])
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        dispatch(removeTaskTC(id, todolistId))
+    const removeTask = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
+        dispatch(removeTaskTC(id, {entityTaskStatus: newValue}, todolistId))
     }, [dispatch])
     const removeTodolist = useCallback((id: string) => {
         dispatch(removeTodolistTC(id))

@@ -7,6 +7,7 @@ import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "../features/todolistsList/todolist/todolists-reducer";
 import {AppBar, Button, Container, Grid, Menu, Paper, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
+import {RequestStatusType} from "../app/app-reducer";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -37,34 +38,97 @@ function App() {
     let [tasks, setTasks] = useState<TaskStateType>({
         [todolistId1]: [
             {
-                id: v1(), title: 'HTML&CSS', status: TaskStatuses.Completed, todoListId: todolistId1, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'HTML&CSS',
+                status: TaskStatuses.Completed,
+                todoListId: todolistId1,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             },
             {
-                id: v1(), title: 'JS', status: TaskStatuses.Completed, todoListId: todolistId1, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'JS',
+                status: TaskStatuses.Completed,
+                todoListId: todolistId1,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             },
             {
-                id: v1(), title: 'ReactJS', status: TaskStatuses.New, todoListId: todolistId1, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'ReactJS',
+                status: TaskStatuses.New,
+                todoListId: todolistId1,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             },
             {
-                id: v1(), title: 'Rest API', status: TaskStatuses.New, todoListId: todolistId1, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'Rest API',
+                status: TaskStatuses.New,
+                todoListId: todolistId1,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             },
             {
-                id: v1(), title: 'Graph QL', status: TaskStatuses.New, todoListId: todolistId1, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'Graph QL',
+                status: TaskStatuses.New,
+                todoListId: todolistId1,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             }
         ],
         [todolistId2]: [
             {
-                id: v1(), title: 'Milk', status: TaskStatuses.Completed, todoListId: todolistId2, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'Milk',
+                status: TaskStatuses.Completed,
+                todoListId: todolistId2,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             },
             {
-                id: v1(), title: 'React Book', status: TaskStatuses.New, todoListId: todolistId2, startDate: '',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: 'React Book',
+                status: TaskStatuses.New,
+                todoListId: todolistId2,
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: '',
+                entityTaskStatus: 'idle'
             }
         ]
     })
@@ -86,8 +150,17 @@ function App() {
 
     function addTask(newTitle: string, todolistId: string) {
         let task = {
-            id: v1(), title: newTitle, status: TaskStatuses.New, todoListId: todolistId, startDate: '',
-            deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+            id: v1(),
+            title: newTitle,
+            status: TaskStatuses.New,
+            todoListId: todolistId,
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            description: '',
+            entityTaskStatus: 'idle' as RequestStatusType
         }
         let todolistTask = tasks[todolistId]
         tasks[todolistId] = [task, ...todolistTask]

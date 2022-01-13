@@ -7,6 +7,7 @@ import {
     SetAppStatusActionType
 } from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../../utils/error-utils";
+import {AxiosError} from "axios";
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -56,6 +57,9 @@ export const fetchTodoListsTC = () => (dispatch: Dispatch<ActionsType>) => {
             dispatch(setTodoListsAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
         })
+        .catch((error: AxiosError) => {
+            handleServerNetworkAppError(error.message, dispatch)
+        })
 }
 export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
@@ -65,7 +69,7 @@ export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch<Acti
             dispatch(removeTodolistAC(todolistId))
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
             handleServerNetworkAppError(error.message, dispatch)
         })
 }
@@ -80,7 +84,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch<ActionsType>
                 handleServerAppError(res.data, dispatch)
             }
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
             handleServerNetworkAppError(error.message, dispatch)
         })
 }
@@ -95,7 +99,7 @@ export const updateTodolistTitleTC = (todoListId: string, title: string) => (dis
                 handleServerAppError(res.data, dispatch)
             }
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
             handleServerNetworkAppError(error.message, dispatch)
         })
 }
