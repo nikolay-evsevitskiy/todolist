@@ -37,6 +37,19 @@ export const todolistsApi = {
     }
 }
 
+export const authAPI = {
+    login(email: string, password: string, rememberMe: boolean, captcha?: boolean) {
+        return instance.post<ResponseType<{ userId: number }>>(`/auth/login`,
+            <LoginParamsType>{
+                email: email,
+                password: password,
+                rememberMe: rememberMe,
+                captcha: captcha
+            })
+    }
+
+}
+
 //types
 export enum TaskStatuses {
     New,
@@ -44,6 +57,7 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
+
 export enum TodoTaskPriorities {
     Low,
     Middle,
@@ -51,6 +65,7 @@ export enum TodoTaskPriorities {
     Urgently,
     Later
 }
+
 export type TodolistType = {
     id: string
     title: string
@@ -87,4 +102,10 @@ export type UpdateTaskModelType = {
     priority: TodoTaskPriorities
     startDate: string
     deadline: string
+}
+type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: boolean
 }
