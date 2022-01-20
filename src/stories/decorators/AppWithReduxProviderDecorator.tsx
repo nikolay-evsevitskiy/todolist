@@ -23,28 +23,68 @@ const initialGlobalState: AppRootStateType = {
     tasks: {
         ["todolistId1"]: [
             {
-                id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistId1", startDate: '', entityTaskStatus: 'idle',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: "HTML&CSS",
+                status: TaskStatuses.Completed,
+                todoListId: "todolistId1",
+                startDate: '',
+                entityTaskStatus: 'idle',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: ''
             },
             {
-                id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId: "todolistId1", startDate: '', entityTaskStatus: 'idle',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: "JS",
+                status: TaskStatuses.Completed,
+                todoListId: "todolistId1",
+                startDate: '',
+                entityTaskStatus: 'idle',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: ''
             }
         ],
         ["todolistId2"]: [
             {
-                id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: "todolistId2", startDate: '', entityTaskStatus: 'idle',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: "Milk",
+                status: TaskStatuses.Completed,
+                todoListId: "todolistId2",
+                startDate: '',
+                entityTaskStatus: 'idle',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: ''
             },
             {
-                id: v1(), title: "React Book", status: TaskStatuses.Completed, todoListId: "todolistId2", startDate: '', entityTaskStatus: 'idle',
-                deadline: '', addedDate: '', order: 0, priority: TodoTaskPriorities.Low, description: ''
+                id: v1(),
+                title: "React Book",
+                status: TaskStatuses.Completed,
+                todoListId: "todolistId2",
+                startDate: '',
+                entityTaskStatus: 'idle',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Low,
+                description: ''
             }
         ]
     },
     app: {
         status: 'succeeded',
-        error: null
+        error: null,
+        isInitialized: false
+    },
+    auth: {
+        isLoggedIn: false
     }
 };
 

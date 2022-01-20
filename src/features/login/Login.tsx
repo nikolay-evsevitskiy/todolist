@@ -8,14 +8,17 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "./auth-reducer";
+import {AppRootStateType} from "../../app/store";
+import {Navigate} from 'react-router-dom';
+import {LoginParamsType} from "../../api/todolists-api";
 
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
 
 export const Login = () => {
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -23,7 +26,7 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
+            const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -40,40 +43,45 @@ export const Login = () => {
 
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(loginTC(values))
             formik.resetForm()
         },
     })
 
 
+    if (isLoggedIn) {
+        return <Navigate to={"/"}/>
+    }
+
+
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
-            <form onSubmit={formik.handleSubmit}>
-                <FormControl>
-                    <FormLabel>
-                        <p>To log in get registered
-                            <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}> here
-                            </a>
-                        </p>
-                        <p>or use common test account credentials:</p>
-                        <p>Email: free@samuraijs.com</p>
-                        <p>Password: free</p>
-                    </FormLabel>
+            <FormControl>
+                <FormLabel>
+                    <p>To log in get registered
+                        <a href={'https://social-network.samuraijs.com/'}
+                           target={'_blank'}> here
+                        </a>
+                    </p>
+                    <p>or use common test account credentials:</p>
+                    <p>Email: free@samuraijs.com</p>
+                    <p>Password: free</p>
+                </FormLabel>
+                <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <TextField label="Email"
                                    margin="normal"
                                    {...formik.getFieldProps("email")}
                         />
                         {formik.touched.email
-                        && formik.errors.email ? <div style={{color: "red"}}>{formik.errors.email}</div> : null}
+                            && formik.errors.email && <div style={{color: "red"}}>{formik.errors.email}</div>}
                         <TextField type="password"
                                    label="Password"
                                    margin="normal"
                                    {...formik.getFieldProps("password")}
                         />
                         {formik.touched.password
-                        && formik.errors.password ? <div style={{color: "red"}}>{formik.errors.password}</div> : null}
+                            && formik.errors.password && <div style={{color: "red"}}>{formik.errors.password}</div>}
                         <FormControlLabel label={'Remember me'}
                                           control={
                                               <Checkbox
@@ -83,8 +91,8 @@ export const Login = () => {
                             Login
                         </Button>
                     </FormGroup>
-                </FormControl>
-            </form>
+                </form>
+            </FormControl>
         </Grid>
     </Grid>
 }

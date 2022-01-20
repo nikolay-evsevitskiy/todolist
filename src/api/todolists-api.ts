@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {RequestStatusType} from "../app/app-reducer";
 
 const instance = axios.create({
@@ -30,22 +30,28 @@ export const todolistsApi = {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title: title})
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title: title})
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
 
 export const authAPI = {
-    login(email: string, password: string, rememberMe: boolean, captcha?: boolean) {
-        return instance.post<ResponseType<{ userId: number }>>(`/auth/login`,
-            <LoginParamsType>{
+    login(email: string, password: string, rememberMe?: boolean, captcha?: string) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>(`auth/login`,
+            {
                 email: email,
                 password: password,
                 rememberMe: rememberMe,
                 captcha: captcha
             })
+    },
+    me() {
+        return instance.get<ResponseType<MeResponseType>>(`auth/me`)
+    },
+    logout () {
+        return instance.delete<ResponseType>(`auth/login`)
     }
 
 }
@@ -103,9 +109,15 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
-type LoginParamsType = {
+export type LoginParamsType = {
     email: string
     password: string
-    rememberMe: boolean
-    captcha: boolean
+    rememberMe?: boolean
+    captcha?: string
+}
+
+type MeResponseType = {
+    id: number
+    email: string
+    login: string
 }
