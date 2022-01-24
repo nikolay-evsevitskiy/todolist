@@ -36,16 +36,10 @@ export const todolistsApi = {
         return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
-
 export const authAPI = {
-    login(email: string, password: string, rememberMe?: boolean, captcha?: string) {
+    login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>(`auth/login`,
-            {
-                email: email,
-                password: password,
-                rememberMe: rememberMe,
-                captcha: captcha
-            })
+            data)
     },
     me() {
         return instance.get<ResponseType<MeResponseType>>(`auth/me`)
@@ -63,7 +57,6 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
-
 export enum TodoTaskPriorities {
     Low,
     Middle,
@@ -71,7 +64,6 @@ export enum TodoTaskPriorities {
     Urgently,
     Later
 }
-
 export type TodolistType = {
     id: string
     title: string
@@ -115,7 +107,6 @@ export type LoginParamsType = {
     rememberMe?: boolean
     captcha?: string
 }
-
 type MeResponseType = {
     id: number
     email: string

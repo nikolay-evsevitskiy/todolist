@@ -1,5 +1,10 @@
 import {TaskStateType} from "../../../../trash/App";
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodoListsActionType} from "../todolists-reducer";
+import {
+    AddTodolistActionType,
+    ClearDataActionType,
+    RemoveTodolistActionType,
+    SetTodoListsActionType
+} from "../todolists-reducer";
 import {
     TaskStatuses,
     TaskType,
@@ -44,10 +49,12 @@ export const tasksReducer = (state: TaskStateType = initialState, action: Action
             }
         case 'ADD-TODOLIST':
             return {...state, [action.todolist.id]: []}
-        case "REMOVE-TODOLIST":
+        case 'REMOVE-TODOLIST':
             const stateCopy = {...state}
             delete stateCopy[action.todolistId]
             return stateCopy
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }
@@ -157,4 +164,5 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | SetAppStatusActionType
     | SetAppErrorActionType
+    | ClearDataActionType
 

@@ -3,6 +3,7 @@ import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../
 import {authAPI, LoginParamsType} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {AxiosError} from "axios";
+import {clearDataAC, ClearDataActionType} from "../todolistsList/todolist/todolists-reducer";
 
 const initialState = {
     isLoggedIn: false
@@ -24,7 +25,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
-    authAPI.login(data.email, data.password, data.rememberMe, data.captcha)
+    authAPI.login(data)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC(true))
@@ -44,6 +45,7 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC(false))
+                dispatch(clearDataAC())
                 dispatch(setAppStatusAC('succeeded'))
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -56,4 +58,8 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
 
 
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType
+type ActionsType =
+    ReturnType<typeof setIsLoggedInAC>
+    | SetAppStatusActionType
+    | SetAppErrorActionType
+    | ClearDataActionType

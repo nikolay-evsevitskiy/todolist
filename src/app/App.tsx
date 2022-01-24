@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {AppRootStateType} from './store';
 import {TaskType} from '../api/todolists-api';
@@ -26,12 +26,14 @@ function App({demo = false}: PropsType) {
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(initializeAppTC())
-    }, [])
-    const isLoggedOutHandler = () => {
+    }, [dispatch])
+
+    const isLoggedOutHandler = useCallback(() => {
         dispatch(logoutTC())
-    }
+    }, [dispatch])
 
     if (!isInitialized) {
         return <div
@@ -58,10 +60,9 @@ function App({demo = false}: PropsType) {
             <Routes>
                 <Route path="/" element={<TodolistsList demo={demo}/>}/>
                 <Route path="login" element={<Login/>}/>
-                <Route path="*" element={<Navigate to="404"/>}/>
-                <Route path="404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                <Route path="*" element={<Navigate to="/404"/>}/>
+                <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
             </Routes>
-            <TodolistsList demo={demo}/>
         </Container>
     </div>
 }
