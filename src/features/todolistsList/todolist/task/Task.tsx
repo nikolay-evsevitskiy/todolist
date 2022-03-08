@@ -32,6 +32,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     const onTitleChangeHandler = useCallback((newValue: string) => {
         props.onChangeTaskTitle(props.taskId, props.TodolistId, newValue)
     }, [props.onChangeTaskTitle, props.taskId, props.TodolistId])
+
     return <div key={props.taskId} className={props.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox
             checked={props.status === TaskStatuses.Completed}

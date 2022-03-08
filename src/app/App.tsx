@@ -44,15 +44,15 @@ function App({demo = false}: PropsType) {
 
     return <div className="App">
         <ErrorSnackbar/>
-        <AppBar position="static">
+        <AppBar position="static" color="primary">
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu">
                     <Menu open={false}/>
                 </IconButton>
                 <Typography variant="h6" color="inherit" component="div">
-                    News
+                    To Do List
                 </Typography>
-                {isLoggedIn && <Button onClick={isLoggedOutHandler} color='inherit'>Log out</Button>}
+                {isLoggedIn && <div><Button color='warning' onClick={isLoggedOutHandler} >log out</Button></div>}
             </Toolbar>
             {status === 'loading' && <LinearProgress color={'secondary'}/>}
         </AppBar>
