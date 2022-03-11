@@ -14,7 +14,7 @@ const slice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
-        setIsLoggedInAC(state, action: PayloadAction<{value: boolean}>) {
+        setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
             state.isLoggedIn = action.payload.value
         }
     }
@@ -31,13 +31,15 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: true}))
-                dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
         })
         .catch((error: AxiosError) => {
             handleServerNetworkAppError(error.message, dispatch)
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC({status: "succeeded"}))
         })
 }
 
