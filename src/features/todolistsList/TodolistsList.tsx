@@ -33,7 +33,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
             return;
         }
         dispatch(fetchTodoListsTC())
-    }, [])
+    }, [demo, dispatch, isLoggedIn])
 
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title))

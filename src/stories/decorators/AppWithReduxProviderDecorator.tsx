@@ -92,5 +92,6 @@ export const storyBookStore = createStore(rootReducer, initialGlobalState, apply
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => (
     <Provider
-        store={storyBookStore}>{storyFn()}
+        store={storyBookStore}>
+        {/*{storyFn()}*/}
     </Provider>)
