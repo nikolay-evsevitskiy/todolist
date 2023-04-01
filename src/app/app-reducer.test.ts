@@ -10,13 +10,13 @@ beforeEach(() => {
 })
 
 test('correct error message should be set', () => {
-    const action = setAppErrorAC('Error')
+    const action = setAppErrorAC({error: 'Error'})
     const endAppState = appReducer(startState, action)
 
     expect(endAppState.error).toBe('Error');
 });
 test('correct status should be set', () => {
-    const action = setAppStatusAC('idle');
+    const action = setAppStatusAC({status: 'idle'});
     const endState = appReducer(startState, action)
 
     expect(endState.status).toStrictEqual('idle');
