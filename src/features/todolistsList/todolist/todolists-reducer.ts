@@ -1,24 +1,19 @@
 import {todolistsApi, TodolistType} from "../../../api/todolists-api";
 import {Dispatch} from "redux";
-import {
-    RequestStatusType,
-    setAppStatusAC
-} from "../../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../../utils/error-utils";
 import {AxiosError} from "axios";
 import {fetchTaskTC} from "./task/tasks-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../../../common/action/common.actions";
 
 
 const initialState: Array<TodolistDomainType> = []
 
 const slice = createSlice({
     name: "todolists",
-    initialState: initialState,
+    initialState,
     reducers: {
-        clearDataAC(state) {
-            state = []
-        },
         removeTodolistAC(state, action: PayloadAction<{ todolistId: string }>) {
             const index = state.findIndex(i => i.id === action.payload.todolistId)
             index > -1 && state.splice(index, 1)
@@ -41,6 +36,12 @@ const slice = createSlice({
             const index = state.findIndex(i => i.id === action.payload.id)
             state[index].entityStatus = action.payload.status
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(clearTasksAndTodolists, () => {
+                return []
+            })
     }
 })
 
@@ -71,7 +72,6 @@ export const todolistsReducer = slice.reducer
 //actions
 
 export const {
-    clearDataAC,
     removeTodolistAC,
     addTodolistAC,
     changeTodolistTitleAC,

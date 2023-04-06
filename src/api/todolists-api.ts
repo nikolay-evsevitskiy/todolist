@@ -44,7 +44,7 @@ export const authAPI = {
     me() {
         return instance.get<ResponseType<MeResponseType>>(`auth/me`)
     },
-    logout () {
+    logout() {
         return instance.delete<ResponseType>(`auth/login`)
     }
 
@@ -57,6 +57,7 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
+
 export enum TodoTaskPriorities {
     Low,
     Middle,
@@ -64,6 +65,7 @@ export enum TodoTaskPriorities {
     Urgently,
     Later
 }
+
 export type TodolistType = {
     id: string
     title: string

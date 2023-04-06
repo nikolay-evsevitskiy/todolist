@@ -1,9 +1,5 @@
 import {TaskStateType} from "../../../../trash/App";
-import {
-    addTodolistAC,
-    clearDataAC,
-    setTodoListsAC,
-} from "../todolists-reducer";
+import {addTodolistAC, setTodoListsAC,} from "../todolists-reducer";
 import {
     TaskStatuses,
     TaskType,
@@ -13,13 +9,11 @@ import {
 } from "../../../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../../../app/store";
-import {
-    RequestStatusType,
-    setAppStatusAC
-} from "../../../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../../../utils/error-utils";
 import {AxiosError} from "axios";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../../../../common/action/common.actions";
 
 const initialState: TaskStateType = {}
 const slice = createSlice({
@@ -45,23 +39,25 @@ const slice = createSlice({
         },
         setTasksAC(state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) {
             state[action.payload.todolistId] = action.payload.tasks
-        }
+        },
     },
     extraReducers: (builder) => {
-        builder.addCase(addTodolistAC, (state, action) => {
-            state[action.payload.todolist.id] = []
-        })
-        builder.addCase(setTodoListsAC, (state, action) => {
-            action.payload.todoLists.forEach(i => {
-                state[i.id] = []
+        builder
+            .addCase(addTodolistAC, (state, action) => {
+                state[action.payload.todolist.id] = []
             })
-        })
-        builder.addCase(removeTaskAC, (state, action) => {
-            delete state[action.payload.todolistId]
-        })
-        builder.addCase(clearDataAC, (state, action) => {
-            state = {}
-        })
+            .addCase(setTodoListsAC, (state, action) => {
+                action.payload.todoLists.forEach(i => {
+                    state[i.id] = []
+                })
+            })
+            .addCase(removeTaskAC, (state, action) => {
+                delete state[action.payload.todolistId]
+            })
+            .addCase(clearTasksAndTodolists, () => {
+                    return {}
+                }
+            )
     }
 })
 

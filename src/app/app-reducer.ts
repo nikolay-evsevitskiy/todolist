@@ -12,7 +12,7 @@ const initialState: InitialStateType = {
 
 const slice = createSlice({
     name: "app",
-    initialState: initialState,
+    initialState,
     reducers: {
         setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
@@ -28,8 +28,6 @@ const slice = createSlice({
 })
 //reducer
 export const appReducer = slice.reducer
-
-
 //actions
 export const {setAppStatusAC, setAppErrorAC, setIsInitializedAC} = slice.actions
 
