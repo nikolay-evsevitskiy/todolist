@@ -1,5 +1,5 @@
 import {TaskStateType} from "../../../../trash/App";
-import {addTodolistAC, setTodoListsAC,} from "../todolists-reducer";
+import {addTodolistAC, removeTodolistAC, setTodoListsAC,} from "../todolists-reducer";
 import {
     TaskStatuses,
     TaskType,
@@ -51,7 +51,7 @@ const slice = createSlice({
                     state[i.id] = []
                 })
             })
-            .addCase(removeTaskAC, (state, action) => {
+            .addCase(removeTodolistAC, (state, action) => {
                 delete state[action.payload.todolistId]
             })
             .addCase(clearTasksAndTodolists, () => {
