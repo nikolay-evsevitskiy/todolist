@@ -42,7 +42,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
         dispatch(addTaskTC(todolistId, newTitle))
     }, [dispatch])
     const removeTask = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
-        dispatch(removeTaskTC(id, {entityTaskStatus: newValue}, todolistId))
+        dispatch(removeTaskTC({taskId: id, todolistId}))
     }, [dispatch])
     const removeTodolist = useCallback((id: string) => {
         dispatch(removeTodolistTC(id))
