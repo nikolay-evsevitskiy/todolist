@@ -23,9 +23,9 @@ export const fetchTaskTC = createAsyncThunk('tasks/fetchTasks', async (todolistI
     const tasks = res.data.items
     thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
     return {tasks, todolistId}
-    // .catch((error: AxiosError) => {
-    //     handleServerNetworkAppError(error.message, thunkAPI.dispatch)
-    // })
+    // catch(error)  {
+    //     handleServerNetworkAppError(error, thunkAPI.dispatch)
+    // }
 })
 export const removeTaskTC = createAsyncThunk('tasks/removeTask', async (param: { taskId: string, todolistId: string }, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))

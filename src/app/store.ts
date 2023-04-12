@@ -3,7 +3,7 @@ import {todolistsReducer} from '../features/todolistsList/todolist/todolists-red
 import {combineReducers} from 'redux';
 import thunk from 'redux-thunk'
 import {appReducer} from "./app-reducer";
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {authReducer} from "../features/login/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -25,6 +25,9 @@ export const store = configureStore({
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+
+type AppDispatchType = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatchType>()
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 //@ts-ignore
