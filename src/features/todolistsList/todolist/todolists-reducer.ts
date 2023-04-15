@@ -110,7 +110,7 @@ export const fetchTodoListsTC = () => (dispatch: any) => {
             })
         })
         .catch((error: AxiosError) => {
-            handleServerNetworkAppError(error.message, dispatch)
+            handleServerNetworkAppError({message: error.message}, dispatch)
         })
 }
 export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
@@ -122,7 +122,7 @@ export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => 
             dispatch(setAppStatusAC({status: 'succeeded'}))
         })
         .catch((error: AxiosError) => {
-            handleServerNetworkAppError(error.message, dispatch)
+            handleServerNetworkAppError({message: error.message}, dispatch)
         })
 }
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
@@ -137,7 +137,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
             }
         })
         .catch((error: AxiosError) => {
-            handleServerNetworkAppError(error.message, dispatch)
+            handleServerNetworkAppError({message: error.message}, dispatch)
         })
 }
 export const updateTodolistTitleTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
@@ -152,7 +152,7 @@ export const updateTodolistTitleTC = (todoListId: string, title: string) => (dis
             }
         })
         .catch((error: AxiosError) => {
-            handleServerNetworkAppError(error.message, dispatch)
+            handleServerNetworkAppError({message: error.message}, dispatch)
         })
 }
 

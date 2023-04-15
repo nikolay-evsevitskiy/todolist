@@ -89,7 +89,7 @@ export type FieldErrorType = { field: string, error: string }
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: [string]
-    fieldsError: Array<FieldErrorType>
+    fieldsErrors: Array<FieldErrorType>
     data: D
 }
 type GetTasksResponseType = {

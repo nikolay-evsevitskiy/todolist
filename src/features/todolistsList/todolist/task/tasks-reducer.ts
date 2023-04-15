@@ -19,22 +19,29 @@ const initialState: TaskStateType = {}
 
 export const fetchTaskTC = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    const res = await todolistsApi.getTasks(todolistId)
-    const tasks = res.data.items
-    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-    return {tasks, todolistId}
-    // catch(error)  {
-    //     handleServerNetworkAppError(error, thunkAPI.dispatch)
-    // }
+    try {
+        const res = await todolistsApi.getTasks(todolistId)
+        const tasks = res.data.items
+        return {tasks, todolistId}
+    } catch (error) {
+        if (error instanceof Error)
+            handleServerNetworkAppError(error, thunkAPI.dispatch)
+    } finally {
+        thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+    }
 })
 export const removeTaskTC = createAsyncThunk('tasks/removeTask', async (param: { taskId: string, todolistId: string }, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    await todolistsApi.deleteTask(param.todolistId, param.taskId)
-    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-    return {taskID: param.taskId, todolistId: param.todolistId}
-    // .catch((error: AxiosError) => {
-    //     handleServerNetworkAppError(error.message, thunkAPI.dispatch)
-    // })
+    try {
+        await todolistsApi.deleteTask(param.todolistId, param.taskId)
+        return {taskID: param.taskId, todolistId: param.todolistId}
+    } catch (error: unknown) {
+        if (error instanceof Error)
+            handleServerNetworkAppError(error, thunkAPI.dispatch)
+        return thunkAPI.rejectWithValue({errors: [error], fieldsErrors: undefined})
+    } finally {
+        thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+    }
 })
 export const _addTaskTC = createAsyncThunk('tasks/addTask', async (param: { todolistId: string, title: string }, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
@@ -59,7 +66,7 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
             }
         })
         .catch((error: AxiosError) => {
-            handleServerNetworkAppError(error.message, dispatch)
+            handleServerNetworkAppError({message: error.message}, dispatch)
         })
 
 }
@@ -97,7 +104,8 @@ const slice = createSlice({
                 return {}
             })
             .addCase(fetchTaskTC.fulfilled, (state, action) => {
-                state[action.payload.todolistId] = action.payload.tasks
+                if (action.payload)
+                    state[action.payload.todolistId] = action.payload.tasks
             })
             .addCase(removeTaskTC.fulfilled, (state, action) => {
                 const tasks = state[action.payload.todolistId]
@@ -149,7 +157,7 @@ export const updateTaskTC = (taskId: string, todolistId: string, domainModel: Up
                     }
                 })
                 .catch((error: AxiosError) => {
-                    handleServerNetworkAppError(error.message, dispatch)
+                    handleServerNetworkAppError({message: error.message}, dispatch)
                 })
         }
     }
