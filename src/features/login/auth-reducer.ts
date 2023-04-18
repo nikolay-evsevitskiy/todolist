@@ -33,12 +33,12 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
             return;
         } else {
             handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({})
+            return thunkAPI.rejectWithValue(null)
         }
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkAppError(error, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({})
+            return thunkAPI.rejectWithValue(null)
         }
     } finally {
         thunkAPI.dispatch(setAppStatusAC({status: "succeeded"}))

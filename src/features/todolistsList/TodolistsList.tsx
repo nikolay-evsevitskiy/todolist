@@ -36,29 +36,29 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
     }, [demo, dispatch, isLoggedIn])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC(title))
+        dispatch(addTodolistTC({title}))
     }, [dispatch])
     const addTask = useCallback((newTitle: string, todolistId: string) => {
-        dispatch(addTaskTC(todolistId, newTitle))
+        dispatch(addTaskTC({todolistId, title: newTitle}))
     }, [dispatch])
     const removeTask = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
         dispatch(removeTaskTC({taskId: id, todolistId}))
     }, [dispatch])
     const removeTodolist = useCallback((id: string) => {
-        dispatch(removeTodolistTC(id))
+        dispatch(removeTodolistTC({todolistId: id}))
     }, [dispatch])
     const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskTC(id, todolistId, {status}))
+        dispatch(updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {status}}))
     }, [dispatch])
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         const action = changeTodolistFilterAC({id: todolistId, filter: value})
         dispatch(action)
     }, [dispatch])
     const changeTaskTitle = useCallback((id: string, todolistId: string, newValue: string) => {
-        dispatch(updateTaskTC(id, todolistId, {title: newValue}))
+        dispatch(updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {title: newValue}}))
     }, [dispatch])
     const onChangeTodolistTitle = useCallback((todolistId: string, newValue: string) => {
-        dispatch(updateTodolistTitleTC(todolistId, newValue))
+        dispatch(updateTodolistTitleTC({todoListId: todolistId, title: newValue}))
     }, [dispatch])
 
     if (!isLoggedIn) {
