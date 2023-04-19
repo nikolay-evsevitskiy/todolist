@@ -1,16 +1,7 @@
-import {AppRootStateType, useAppSelector} from "../../app/store";
-import {
-    addTodolistTC,
-    changeTodolistFilterAC,
-    fetchTodoListsTC,
-    FilterValuesType,
-    removeTodolistTC,
-    TodolistDomainType,
-    updateTodolistTitleTC
-} from "./todolist/todolists-reducer";
+import {useActions, useAppSelector} from "../../app/store";
+import {changeTodolistFilterAC, FilterValuesType, TodolistDomainType} from "./todolist/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect} from "react";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "./todolist/task/tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
@@ -18,6 +9,9 @@ import {Todolist} from "./todolist/Todolist";
 import {TaskStateType} from "../../app/App";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Navigate} from "react-router-dom";
+import {authSelectors} from "../Auth";
+import {tasksActions, todolistsActions} from "./todolist";
+
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -26,40 +20,42 @@ type TodolistsListPropsType = {
 export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) => {
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todoLists)
     const tasks = useAppSelector<TaskStateType>(state => state.tasks)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+    const {addTodolistTC, removeTodolistTC, updateTodolistTitleTC, fetchTodoListsTC} = useActions(todolistsActions)
+    const {addTaskTC, removeTaskTC, updateTaskTC} = useActions(tasksActions)
     const dispatch = useDispatch();
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return;
         }
-        dispatch(fetchTodoListsTC())
+        fetchTodoListsTC()
     }, [demo, dispatch, isLoggedIn])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC({title}))
-    }, [dispatch])
+        addTodolistTC({title})
+    }, [addTodolistTC])
     const addTask = useCallback((newTitle: string, todolistId: string) => {
-        dispatch(addTaskTC({todolistId, title: newTitle}))
-    }, [dispatch])
+        addTaskTC({todolistId, title: newTitle})
+    }, [addTaskTC])
     const removeTask = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
-        dispatch(removeTaskTC({taskId: id, todolistId}))
-    }, [dispatch])
+        removeTaskTC({taskId: id, todolistId})
+    }, [removeTaskTC])
     const removeTodolist = useCallback((id: string) => {
-        dispatch(removeTodolistTC({todolistId: id}))
-    }, [dispatch])
+        removeTodolistTC({todolistId: id})
+    }, [removeTodolistTC])
     const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {status}}))
-    }, [dispatch])
+        updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {status}})
+    }, [updateTaskTC])
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         const action = changeTodolistFilterAC({id: todolistId, filter: value})
         dispatch(action)
     }, [dispatch])
     const changeTaskTitle = useCallback((id: string, todolistId: string, newValue: string) => {
-        dispatch(updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {title: newValue}}))
-    }, [dispatch])
+        updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {title: newValue}})
+    }, [updateTaskTC])
     const onChangeTodolistTitle = useCallback((todolistId: string, newValue: string) => {
-        dispatch(updateTodolistTitleTC({todoListId: todolistId, title: newValue}))
-    }, [dispatch])
+        updateTodolistTitleTC({todoListId: todolistId, title: newValue})
+    }, [updateTodolistTitleTC])
 
     if (!isLoggedIn) {
         return <Navigate to="login"/>

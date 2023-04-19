@@ -1,17 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {AppRootStateType} from './store';
 import {TaskType} from '../api/todolists-api';
-import {AppBar, LinearProgress, Menu, Toolbar, Typography, Container, CircularProgress} from "@mui/material";
+import {AppBar, CircularProgress, Container, LinearProgress, Menu, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Button from "@mui/material/Button";
 import {TodolistsList} from "../features/todolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {initializeAppTC, RequestStatusType} from "./app-reducer";
+import {initializeAppTC} from "./app-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {Routes, Route, Navigate} from 'react-router-dom';
-import {Login} from "../features/login/Login";
-import {logoutTC} from "../features/login/auth-reducer";
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {Login} from "../features/Auth/Login";
+import {logoutTC} from "../features/Auth/auth-reducer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {authSelectors} from "../features/Auth";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -22,9 +23,9 @@ type PropsType = {
 export default App;
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector(selectStatus)
+    const isInitialized = useSelector(selectIsInitialized)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -52,7 +53,7 @@ function App({demo = false}: PropsType) {
                 <Typography variant="h6" color="inherit" component="div">
                     To Do List
                 </Typography>
-                {isLoggedIn && <div><Button color='warning' onClick={isLoggedOutHandler} >log out</Button></div>}
+                {isLoggedIn && <div><Button color='warning' onClick={isLoggedOutHandler}>log out</Button></div>}
             </Toolbar>
             {status === 'loading' && <LinearProgress color={'secondary'}/>}
         </AppBar>

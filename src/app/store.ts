@@ -1,11 +1,12 @@
 import {tasksReducer} from '../features/todolistsList/todolist/task/tasks-reducer';
 import {todolistsReducer} from '../features/todolistsList/todolist/todolists-reducer';
-import {combineReducers} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, combineReducers} from 'redux';
 import thunk from 'redux-thunk'
 import {appReducer} from "./app-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {authReducer} from "../features/login/auth-reducer";
+import {authReducer} from "../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {useMemo} from "react";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -28,6 +29,13 @@ export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelecto
 
 type AppDispatchType = typeof store.dispatch
 export const useAppDispatch = () => useDispatch<AppDispatchType>()
+
+export function useActions<T extends ActionCreatorsMapObject>(action: T) {
+    const dispatch = useAppDispatch()
+    return useMemo(() => {
+        return bindActionCreators(action, dispatch)
+    }, [action, dispatch])
+}
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 //@ts-ignore
