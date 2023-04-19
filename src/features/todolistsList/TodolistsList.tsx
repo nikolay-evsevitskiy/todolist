@@ -1,16 +1,14 @@
 import {useActions, useAppSelector} from "../../app/store";
-import {changeTodolistFilterAC, FilterValuesType, TodolistDomainType} from "./todolist/todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {TodolistDomainType} from "./todolist/todolists-reducer";
+import {useSelector} from "react-redux";
 import React, {useCallback, useEffect} from "react";
-import {TaskStatuses} from "../../api/todolists-api";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./todolist/Todolist";
 import {TaskStateType} from "../../app/App";
-import {RequestStatusType} from "../../app/app-reducer";
 import {Navigate} from "react-router-dom";
 import {authSelectors} from "../Auth";
-import {tasksActions, todolistsActions} from "./todolist";
+import {todolistsActions} from "./todolist";
 
 
 type TodolistsListPropsType = {
@@ -21,49 +19,27 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todoLists)
     const tasks = useAppSelector<TaskStateType>(state => state.tasks)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
-    const {addTodolistTC, removeTodolistTC, updateTodolistTitleTC, fetchTodoListsTC} = useActions(todolistsActions)
-    const {addTaskTC, removeTaskTC, updateTaskTC} = useActions(tasksActions)
-    const dispatch = useDispatch();
+    const {
+        addTodolist,
+        fetchTodoLists
+    } = useActions(todolistsActions)
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return;
         }
-        fetchTodoListsTC()
-    }, [demo, dispatch, isLoggedIn])
+        fetchTodoLists()
+    }, [demo, isLoggedIn])
 
-    const addTodolist = useCallback((title: string) => {
-        addTodolistTC({title})
-    }, [addTodolistTC])
-    const addTask = useCallback((newTitle: string, todolistId: string) => {
-        addTaskTC({todolistId, title: newTitle})
-    }, [addTaskTC])
-    const removeTask = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
-        removeTaskTC({taskId: id, todolistId})
-    }, [removeTaskTC])
-    const removeTodolist = useCallback((id: string) => {
-        removeTodolistTC({todolistId: id})
-    }, [removeTodolistTC])
-    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {status}})
-    }, [updateTaskTC])
-    const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        const action = changeTodolistFilterAC({id: todolistId, filter: value})
-        dispatch(action)
-    }, [dispatch])
-    const changeTaskTitle = useCallback((id: string, todolistId: string, newValue: string) => {
-        updateTaskTC({taskId: id, todolistId: todolistId, domainModel: {title: newValue}})
-    }, [updateTaskTC])
-    const onChangeTodolistTitle = useCallback((todolistId: string, newValue: string) => {
-        updateTodolistTitleTC({todoListId: todolistId, title: newValue})
-    }, [updateTodolistTitleTC])
+    const addTodolistCallback = useCallback((title: string) => {
+        addTodolist({title})
+    }, [addTodolist])
 
     if (!isLoggedIn) {
         return <Navigate to="login"/>
     }
-
     return <>
         <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
+            <AddItemForm addItem={addTodolistCallback}/>
         </Grid>
         <Grid container spacing={3}>
             {todolists.map(tl => {
@@ -75,13 +51,6 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
                             todolist={tl}
                             key={tl.id}
                             tasks={tasksForToDoList}
-                            removeTask={removeTask}
-                            removeTodolist={removeTodolist}
-                            filterTasks={changeFilter}
-                            addTask={addTask}
-                            changeTaskStatus={changeStatus}
-                            onChangeTaskTitle={changeTaskTitle}
-                            onChangeTodolistTitle={onChangeTodolistTitle}
                             demo={demo}
                         />
                     </Paper>

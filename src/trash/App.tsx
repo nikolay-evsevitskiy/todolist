@@ -4,10 +4,9 @@ import {Todolist} from '../features/todolistsList/todolist/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "../features/todolistsList/todolist/todolists-reducer";
+import {TodolistDomainType} from "../features/todolistsList/todolist/todolists-reducer";
 import {AppBar, Button, Container, Grid, Menu, Paper, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
-import {RequestStatusType} from "../app/app-reducer";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -148,72 +147,72 @@ function App() {
         setTasks({...tasks, [newTodolistId]: []})
     }
 
-    function addTask(newTitle: string, todolistId: string) {
-        let task = {
-            id: v1(),
-            title: newTitle,
-            status: TaskStatuses.New,
-            todoListId: todolistId,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TodoTaskPriorities.Low,
-            description: '',
-            entityTaskStatus: 'idle' as RequestStatusType
-        }
-        let todolistTask = tasks[todolistId]
-        tasks[todolistId] = [task, ...todolistTask]
-        setTasks({...tasks})
-    }
+    // function addTask(newTitle: string, todolistId: string) {
+    //     let task = {
+    //         id: v1(),
+    //         title: newTitle,
+    //         status: TaskStatuses.New,
+    //         todoListId: todolistId,
+    //         startDate: '',
+    //         deadline: '',
+    //         addedDate: '',
+    //         order: 0,
+    //         priority: TodoTaskPriorities.Low,
+    //         description: '',
+    //         entityTaskStatus: 'idle' as RequestStatusType
+    //     }
+    //     let todolistTask = tasks[todolistId]
+    //     tasks[todolistId] = [task, ...todolistTask]
+    //     setTasks({...tasks})
+    // }
 
-    function removeTask(id: string, todolistId: string) {
-        let todolistTask = tasks[todolistId]
-        tasks[todolistId] = todolistTask.filter(t => t.id !== id)
-        setTasks({...tasks})
-    }
-
-    function removeTodolist(id: string) {
-        setTodolists(todolists.filter(t => t.id !== id))
-        delete tasks[id]
-        setTasks({...tasks})
-    }
-
-    function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
-        let todolistTask = tasks[todolistId]
-        let task = todolistTask.find(t => t.id === id)
-        if (task) {
-            task.status = status
-            setTasks({...tasks})
-        }
-
-    }
-
-    function changeFilter(value: FilterValuesType, todolistId: string) {
-        let todolist = todolists.find(t => t.id === todolistId)
-        if (todolist) {
-            todolist.filter = value
-            setTodolists([...todolists])
-        }
-    }
-
-    function onChange(id: string, todolistId: string, newValue: string) {
-        let todolistTask = tasks[todolistId]
-        let task = todolistTask.find(t => t.id === id)
-        if (task) {
-            task.title = newValue
-            setTasks({...tasks})
-        }
-
-    }
-
-    function onChangeTodolistTitle(todolistId: string, newValue: string) {
-        let todolist = todolists.find(t => t.id === todolistId)
-        if (todolist) {
-            todolist.title = newValue
-            setTodolists([...todolists])
-        }
-    }
+    // function removeTask(id: string, todolistId: string) {
+    //     let todolistTask = tasks[todolistId]
+    //     tasks[todolistId] = todolistTask.filter(t => t.id !== id)
+    //     setTasks({...tasks})
+    // }
+    //
+    // function removeTodolist(id: string) {
+    //     setTodolists(todolists.filter(t => t.id !== id))
+    //     delete tasks[id]
+    //     setTasks({...tasks})
+    // }
+    //
+    // function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
+    //     let todolistTask = tasks[todolistId]
+    //     let task = todolistTask.find(t => t.id === id)
+    //     if (task) {
+    //         task.status = status
+    //         setTasks({...tasks})
+    //     }
+    //
+    // }
+    //
+    // function changeFilter(value: FilterValuesType, todolistId: string) {
+    //     let todolist = todolists.find(t => t.id === todolistId)
+    //     if (todolist) {
+    //         todolist.filter = value
+    //         setTodolists([...todolists])
+    //     }
+    // }
+    //
+    // function onChange(id: string, todolistId: string, newValue: string) {
+    //     let todolistTask = tasks[todolistId]
+    //     let task = todolistTask.find(t => t.id === id)
+    //     if (task) {
+    //         task.title = newValue
+    //         setTasks({...tasks})
+    //     }
+    //
+    // }
+    //
+    // function onChangeTodolistTitle(todolistId: string, newValue: string) {
+    //     let todolist = todolists.find(t => t.id === todolistId)
+    //     if (todolist) {
+    //         todolist.title = newValue
+    //         setTodolists([...todolists])
+    //     }
+    // }
 
 
     return (
@@ -254,13 +253,6 @@ function App() {
                                         todolist={tl}
                                         key={tl.id}
                                         tasks={tasksForToDoList}
-                                        removeTask={removeTask}
-                                        removeTodolist={removeTodolist}
-                                        filterTasks={changeFilter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeStatus}
-                                        onChangeTaskTitle={onChange}
-                                        onChangeTodolistTitle={onChangeTodolistTitle}
                                     />
                                 </Paper>
                             </Grid>

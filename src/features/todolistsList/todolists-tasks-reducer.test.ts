@@ -1,7 +1,7 @@
 import {TaskStateType} from "../../trash/App";
 import {tasksReducer} from "./todolist/task/tasks-reducer";
 import {TodolistDomainType, todolistsReducer} from "./todolist/todolists-reducer";
-import {addTodolistTC, fetchTodoListsTC} from "./todolist/todolists-actions";
+import {addTodolist, fetchTodoLists} from "./todolist/todolists-actions";
 
 test('ids should be equals', () => {
     const startTasksState: TaskStateType = {};
@@ -15,7 +15,7 @@ test('ids should be equals', () => {
             order: 0
         }
     };
-    const action = addTodolistTC.fulfilled(param, 'requestId', {title: param.todolist.title});
+    const action = addTodolist.fulfilled(param, 'requestId', {title: param.todolist.title});
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -34,7 +34,7 @@ test('empty arrays should be added when we set todolists', () => {
             {id: '2', title: 'title2', order: 0, addedDate: ''}
         ]
     };
-    const action = fetchTodoListsTC.fulfilled(updatePayload, 'requestId');
+    const action = fetchTodoLists.fulfilled(updatePayload, 'requestId');
 
     const endState = tasksReducer({}, action)
 
