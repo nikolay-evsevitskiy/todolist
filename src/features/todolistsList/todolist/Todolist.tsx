@@ -1,34 +1,33 @@
-import React, {useCallback} from 'react';
-import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
-import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
-import {Task} from "./task/Task";
-import {TodolistDomainType} from "./todolists-reducer";
+import React, {useCallback, useEffect} from 'react';
+import {AddItemForm, EditableSpan} from "../../../components";
+import {Task} from "./task";
+import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton/IconButton';
-import {Delete} from "@mui/icons-material";
 import {useActions} from "../../../app/store";
-import {tasksActions, todolistsActions} from "./index";
+import {tasksActions, todolistsActions} from "../index";
 import {RequestStatusType} from "../../../app/app-reducer";
-
-type PropsType = {
-    todolist: TodolistDomainType
-    tasks: Array<TaskType>
-    demo?: boolean
-}
+import {Button, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import {OverridableStringUnion} from "@mui/types";
+import {ButtonPropsColorOverrides} from "@mui/material/Button/Button";
 
 export const Todolist: React.FC<PropsType> = React.memo(({
                                                              demo = false,
                                                              todolist,
                                                              ...props
                                                          }) => {
-
     const {
         removeTodolist,
         updateTodolistTitle,
         changeTodolistFilterAC
     } = useActions(todolistsActions)
-    const {addTask, removeTask, updateTask} = useActions(tasksActions)
+    const {addTask, removeTask, updateTask, fetchTask} = useActions(tasksActions)
+    useEffect(() => {
+        if (demo) {
+            return
+        }
+        fetchTask(todolist.id)
+    }, [])
     const removeTaskHandler = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
         removeTask({taskId: id, todolistId})
     }, [removeTask])
@@ -56,13 +55,18 @@ export const Todolist: React.FC<PropsType> = React.memo(({
     const onChangeTodolistTitleHandler = useCallback((newValue: string) => {
         updateTodolistTitle({todoListId: todolist.id, title: newValue})
     }, [updateTodolistTitle])
-
     let tasksForTodolist = props.tasks
     if (todolist.filter === 'active') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
     if (todolist.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+    }
+    const renderFilterButton = (onClick: () => void, buttonFilter: FilterValuesType, color: ColorType, text: string) => {
+        return <Button variant={todolist.filter === buttonFilter ? 'outlined' : 'text'} color={color}
+                       onClick={onClick}>
+            {text}
+        </Button>
     }
     return (
         <div className='Block'>
@@ -96,17 +100,19 @@ export const Todolist: React.FC<PropsType> = React.memo(({
                 }
             </div>
             <div style={{paddingTop: "10px"}}>
-                <Button variant={todolist.filter === 'all' ? 'contained' : 'text'} color={'inherit'}
-                        onClick={onAllClickHandler}>All
-                </Button>
-                <Button variant={todolist.filter === 'active' ? 'contained' : 'text'} color={'primary'}
-                        onClick={onActiveClickHandler}>Active
-                </Button>
-                <Button variant={todolist.filter === 'completed' ? 'contained' : 'text'} color={'secondary'}
-                        onClick={onCompletedClickHandler}>Completed
-                </Button>
+                {renderFilterButton(onAllClickHandler, 'all', 'inherit', 'All')}
+                {renderFilterButton(onActiveClickHandler, 'active', 'primary', 'Active')}
+                {renderFilterButton(onCompletedClickHandler, 'completed', 'secondary', 'Completed')}
             </div>
         </div>
     )
 })
 
+
+type PropsType = {
+    todolist: TodolistDomainType
+    tasks: Array<TaskType>
+    demo?: boolean
+}
+type ColorType = OverridableStringUnion<'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
+    ButtonPropsColorOverrides>

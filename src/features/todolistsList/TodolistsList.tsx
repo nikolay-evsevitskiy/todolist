@@ -3,12 +3,12 @@ import {TodolistDomainType} from "./todolist/todolists-reducer";
 import {useSelector} from "react-redux";
 import React, {useCallback, useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../components";
 import {Todolist} from "./todolist/Todolist";
 import {TaskStateType} from "../../app/App";
 import {Navigate} from "react-router-dom";
 import {authSelectors} from "../Auth";
-import {todolistsActions} from "./todolist";
+import {todolistsActions} from "./index";
 
 
 type TodolistsListPropsType = {

@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback} from "react";
-import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
+import {EditableSpan} from "../../../../components";
 import {TaskStatuses} from "../../../../api/todolists-api";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Checkbox} from "@mui/material";

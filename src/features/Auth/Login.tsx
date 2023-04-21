@@ -1,19 +1,12 @@
-import React from 'react'
-import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import React from 'react';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
-import {loginTC} from "./auth-reducer";
 import {useAppDispatch} from "../../app/store";
 import {Navigate} from 'react-router-dom';
 import {LoginParamsType} from "../../api/todolists-api";
 import {selectIsLoggedIn} from "./selectors";
+import {loginTC} from "./auth-actions";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 
 type FormValuesType = {
     email: string,
@@ -46,8 +39,6 @@ export const Login = () => {
                 errors.password = 'Invalid password address';
             }
             return errors;
-
-
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
             const action = await dispatch(loginTC(values))
@@ -56,17 +47,14 @@ export const Login = () => {
                     const error = action.payload?.fieldsErrors[0];
                     formikHelpers.setFieldError(error.field, error.error)
                 }
-
             }
             formik.resetForm()
         },
     })
 
-
     if (isLoggedIn) {
         return <Navigate to={"/"}/>
     }
-
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>

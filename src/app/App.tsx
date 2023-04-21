@@ -1,18 +1,25 @@
-import React, {useCallback, useEffect} from 'react';
-import './App.css';
-import {TaskType} from '../api/todolists-api';
-import {AppBar, CircularProgress, Container, LinearProgress, Menu, Toolbar, Typography} from "@mui/material";
-import IconButton from "@mui/material/IconButton/IconButton";
-import Button from "@mui/material/Button";
-import {TodolistsList} from "../features/todolistsList/TodolistsList";
-import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
+import React, {useCallback, useEffect} from "react";
+import "./App.css";
+import {TaskType} from "../api";
+import {
+    AppBar,
+    Button,
+    CircularProgress,
+    Container,
+    IconButton,
+    LinearProgress,
+    Menu,
+    Toolbar,
+    Typography
+} from "@mui/material";
+import {ErrorSnackbar} from "../components";
 import {initializeAppTC} from "./app-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {Navigate, Route, Routes} from 'react-router-dom';
-import {Login} from "../features/Auth/Login";
-import {logoutTC} from "../features/Auth/auth-reducer";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {authActions, authSelectors, Login} from "../features/Auth";
 import {selectIsInitialized, selectStatus} from "./selectors";
-import {authSelectors} from "../features/Auth";
+import {TodolistsList} from "../features/todolistsList";
+import {useActions} from "./store";
 
 
 export type TaskStateType = { [key: string]: Array<TaskType> }
@@ -27,14 +34,15 @@ function App({demo = false}: PropsType) {
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
     const dispatch = useDispatch()
+    const {logoutTC} = useActions(authActions)
 
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [dispatch])
 
     const isLoggedOutHandler = useCallback(() => {
-        dispatch(logoutTC())
-    }, [dispatch])
+        logoutTC()
+    }, [logoutTC])
 
     if (!isInitialized) {
         return <div
