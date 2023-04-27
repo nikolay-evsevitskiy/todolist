@@ -1,23 +1,19 @@
 import React, {useState} from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
-import {TaskStatuses, TodoTaskPriorities} from "../../../../api/todolists-api";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../../../../api/todolists-api";
+import {ReduxStoreProviderDecorator} from "../../../../stories/decorators/AppWithReduxProviderDecorator";
+import {RequestStatusType} from "../../../../app/app-reducer";
 
 
 export default {
     title: 'TODOLIST/Task',
     component: Task,
-    argTypes: {},
-    args: {
-        changeTaskStatus: action('changeTaskStatus'),
-        removeTask: action('removeTask'),
-        onChangeTaskTitle: action('onChangeTaskTitle')
-    }
+    decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof Task>;
 
 const Template: ComponentStory<typeof Task> = (args) => {
-    const [task, setTask] = useState({
+    const [task, setTask] = useState<TaskType>({
         id: '1',
         title: 'JSww',
         status: TaskStatuses.Completed,
@@ -31,35 +27,26 @@ const Template: ComponentStory<typeof Task> = (args) => {
         entityTaskStatus: 'succeeded'
     })
 
-    const changeStatus = () => setTask({
-        id: '1',
-        title: 'JSww',
-        status: TaskStatuses.New,
-        todoListId: "todolistId1",
-        startDate: '',
-        deadline: '',
-        addedDate: '',
-        order: 0,
-        priority: TodoTaskPriorities.Low,
-        description: '',
-        entityTaskStatus: 'succeeded'
-    })
-    const newArgs = {...args, task, changeTaskStatus: changeStatus}
-    // @ts-ignore
-    return <Task {...newArgs} />;
+    const entityStatus: RequestStatusType = 'loading'
+
+
+    return <Task
+        task={task}
+        entityStatus={entityStatus}
+    />;
 }
 
-export const TaskIsDoneStory = Template.bind({});
-TaskIsDoneStory.args = {
-    // @ts-ignore
-    status: TaskStatuses.Completed,
-    title: 'JS',
-};
-
-export const TaskIsNotDoneStory = Template.bind({});
-
-TaskIsNotDoneStory.args = {
-    // @ts-ignore
-    status: TaskStatuses.Completed,
-    title: 'HTML',
-};
+// export const TaskIsDoneStory = Template.bind({});
+// TaskIsDoneStory.args = {
+//
+//     status: TaskStatuses.Completed,
+//     title: 'JS',
+// };
+//
+// export const TaskIsNotDoneStory = Template.bind({});
+//
+// TaskIsNotDoneStory.args = {
+//
+//     status: TaskStatuses.Completed,
+//     title: 'HTML',
+// };
