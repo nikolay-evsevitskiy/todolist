@@ -13,30 +13,22 @@ type TaskPropsType = {
     entityStatus: RequestStatusType
 }
 
-
 export const Task: React.FC<TaskPropsType> = React.memo(({task, ...props}) => {
     const {removeTask, updateTask} = useActions(tasksActions)
     const removeTaskHandler = useCallback((id: string, newValue: RequestStatusType, todolistId: string) => {
         removeTask({taskId: id, todolistId})
     }, [removeTask])
-    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        updateTask({taskId: id, todolistId: todolistId, domainModel: {status}})
-    }, [updateTask])
-    const changeTaskTitle = useCallback((id: string, todolistId: string, newValue: string) => {
-        updateTask({taskId: id, todolistId: todolistId, domainModel: {title: newValue}})
-    }, [updateTask])
-    const disable = task.entityTaskStatus === 'loading' || props.entityStatus === 'loading'
     const onClickHandler = () => {
         removeTaskHandler(task.id, 'loading', task.todoListId)
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New;
-        changeStatus(task.id, newIsDoneValue, task.todoListId);
-    }
-
+        updateTask({taskId: task.id, todolistId: task.todoListId, domainModel: {status: newIsDoneValue}})
+    }, [updateTask])
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        changeTaskTitle(task.id, task.todoListId, newValue)
-    }, [changeTaskTitle])
+        updateTask({taskId: task.id, todolistId: task.todoListId, domainModel: {title: newValue}})
+    }, [updateTask])
+    const disable = task.entityTaskStatus === 'loading' || props.entityStatus === 'loading'
 
     return <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox
