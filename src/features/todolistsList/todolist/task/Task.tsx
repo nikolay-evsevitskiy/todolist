@@ -31,10 +31,12 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, entityStatus}) =
     const onTitleChangeHandler = useCallback((newValue: string) => {
         updateTask({taskId: task.id, todolistId: task.todoListId, domainModel: {title: newValue}})
     }, [updateTask])
-    const disable = task.entityTaskStatus === 'loading' || entityStatus === 'loading'
-    return <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+    const disable = entityStatus === 'loading' || task.entityTaskStatus === 'loading'
+    const checkedTask = task.status === TaskStatuses.Completed
+    return <div key={task.id} style={{position: 'relative'}}
+                className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox
-            checked={task.status === TaskStatuses.Completed}
+            checked={checkedTask}
             color={'primary'}
             onChange={onChangeHandler}
             disabled={disable}
@@ -42,9 +44,12 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, entityStatus}) =
         <EditableSpan value={task.title}
                       onChange={onTitleChangeHandler}
                       disabled={disable}
+                      checked={checkedTask}
         />
-        <IconButton onClick={onClickHandler} disabled={disable}>
-            <Delete/>
+        <IconButton onClick={onClickHandler}
+                    disabled={disable}
+                    style={{position: 'absolute', top: '1px', right: '1px'}}>
+            <Delete fontSize={'small'}/>
         </IconButton>
     </div>
 

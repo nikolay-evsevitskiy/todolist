@@ -6,9 +6,10 @@ type EditableSpanPropsType = {
     value: string
     onChange: (newValue: string) => void
     disabled: boolean
+    checked?: boolean
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({value, onChange, disabled}) => {
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({value, onChange, disabled, checked}) => {
 
 
     let [editMode, setEditMode] = useState<boolean>(false)
@@ -35,14 +36,16 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({value,
             activateViewMode()
         }
     }
+    const spanStyle = disabled || checked ? {'color': 'gray'} : {'color': 'black'}
 
     return editMode
         ?
-            <TextField
-                value={title}
-                autoFocus onBlur={activateViewMode}
-                onKeyDown={onKeyPressHandler}
-                onChange={changeTitle}
-            />
-        : <span onDoubleClick={activeEditMode} style={disabled ? {'color': 'gray'} : {'color': 'black'}}>{value}</span>
+        <TextField
+            value={title}
+            autoFocus onBlur={activateViewMode}
+            onKeyDown={onKeyPressHandler}
+            onChange={changeTitle}
+        />
+        : <span onDoubleClick={activeEditMode}
+                style={spanStyle}>{value}</span>
 })

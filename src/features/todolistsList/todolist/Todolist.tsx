@@ -72,6 +72,11 @@ export const Todolist: React.FC<PropsType> = React.memo(({demo = false, todolist
                         }
                     )
                 }
+                {
+                    !tasksForTodolist.length && <div style={{padding: '10px', color: 'grey'}}>
+                    No tasks
+                </div>
+                }
             </div>
             <div style={{paddingTop: "10px"}}>
                 {renderFilterButton('all', 'inherit', 'All')}
