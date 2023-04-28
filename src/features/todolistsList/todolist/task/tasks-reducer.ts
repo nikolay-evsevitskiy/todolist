@@ -1,7 +1,7 @@
 import {TaskStateType} from "../../../../trash/App";
 import {TaskStatuses, TodoTaskPriorities} from "../../../../api/todolists-api";
 import {RequestStatusType} from "../../../../app/app-reducer";
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../../../common/action/common.actions";
 import {addTodolist, fetchTodoLists, removeTodolist} from "../todolists-actions";
 import {addTask, fetchTask, removeTask, updateTask} from "./tasks-actions";
@@ -9,7 +9,15 @@ import {addTask, fetchTask, removeTask, updateTask} from "./tasks-actions";
 const slice = createSlice({
     name: "tasks",
     initialState: {} as TaskStateType,
-    reducers: {},
+    reducers: {
+        changeTaskEntityStatusAC(state, action: PayloadAction<{ todolistId: string, taskId: string, taskStatus: RequestStatusType }>) {
+            const tasks = state[action.payload.todolistId]
+            const index = tasks.findIndex(i => i.id === action.payload.taskId)
+            if (index > -1) {
+                tasks[index].entityTaskStatus = action.payload.taskStatus
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(addTodolist.fulfilled, (state, action) => {
@@ -57,6 +65,8 @@ const slice = createSlice({
 })
 //reducer
 export const tasksReducer = slice.reducer
+
+export const {changeTaskEntityStatusAC} = slice.actions
 //types
 export type UpdateDomainModelTaskType = {
     title?: string
