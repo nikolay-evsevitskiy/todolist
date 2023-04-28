@@ -5,7 +5,7 @@ import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {useActions} from "../../../app/store";
 import {tasksActions, todolistsActions} from "../index";
-import {Button, IconButton} from "@mui/material";
+import {Button, IconButton, Paper} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {OverridableStringUnion} from "@mui/types";
 import {ButtonPropsColorOverrides} from "@mui/material/Button/Button";
@@ -45,14 +45,19 @@ export const Todolist: React.FC<PropsType> = React.memo(({demo = false, todolist
         </Button>
     }
     return (
-        <div className='Block'>
+        <Paper className='Block'
+               style={{padding: '10px', position: 'relative'}}>
 
+            <div>
+                <IconButton onClick={removeTodolistHandler}
+                            disabled={todolist.entityStatus === 'loading'}
+                            style={{position: 'absolute', top: '1px', right: '1px'}}>
+                    <Delete/>
+                </IconButton>
+            </div>
             <h3>
                 <EditableSpan value={todolist.title} onChange={onChangeTodolistTitleHandler}
                               disabled={todolist.entityStatus === 'loading'}/>
-                <IconButton onClick={removeTodolistHandler} disabled={todolist.entityStatus === 'loading'}>
-                    <Delete/>
-                </IconButton>
             </h3>
             <AddItemForm addItem={addTaskHandler} disabled={todolist.entityStatus === 'loading'}/>
             <div>
@@ -73,7 +78,7 @@ export const Todolist: React.FC<PropsType> = React.memo(({demo = false, todolist
                 {renderFilterButton('active', 'primary', 'Active')}
                 {renderFilterButton('completed', 'secondary', 'Completed')}
             </div>
-        </div>
+        </Paper>
     )
 })
 

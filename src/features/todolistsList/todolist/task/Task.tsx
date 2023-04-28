@@ -32,7 +32,6 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, entityStatus}) =
         updateTask({taskId: task.id, todolistId: task.todoListId, domainModel: {title: newValue}})
     }, [updateTask])
     const disable = task.entityTaskStatus === 'loading' || entityStatus === 'loading'
-
     return <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox
             checked={task.status === TaskStatuses.Completed}

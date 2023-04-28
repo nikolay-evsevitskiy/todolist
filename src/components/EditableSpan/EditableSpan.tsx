@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField} from "@mui/material";
 
 
@@ -8,34 +8,41 @@ type EditableSpanPropsType = {
     disabled: boolean
 }
 
-export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({value, onChange, disabled}) => {
 
 
     let [editMode, setEditMode] = useState<boolean>(false)
-    let [title, setTitle] = useState<string>(props.value)
+    let [title, setTitle] = useState<string>(value)
 
     const activeEditMode = () => {
-        if (!props.disabled) {
+        if (!disabled) {
             setEditMode(true)
-            setTitle(props.value)
+            setTitle(value)
         }
     }
 
     const activateViewMode = () => {
         setEditMode(false)
-        props.onChange(title)
+        onChange(title)
 
     }
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            activateViewMode()
+        }
+    }
 
     return editMode
-        ? <TextField
-            value={title}
-            autoFocus onBlur={activateViewMode}
-            onChange={changeTitle}
-        />
-        : <span onDoubleClick={activeEditMode}>{props.value}</span>
+        ?
+            <TextField
+                value={title}
+                autoFocus onBlur={activateViewMode}
+                onKeyDown={onKeyPressHandler}
+                onChange={changeTitle}
+            />
+        : <span onDoubleClick={activeEditMode} style={disabled ? {'color': 'gray'} : {'color': 'black'}}>{value}</span>
 })
