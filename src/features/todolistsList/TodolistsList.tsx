@@ -46,7 +46,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
                 let tasksForToDoList = tasks[tl.id]
 
                 return <Grid item key={tl.id}>
-                    <div style={{width: '300px'}}>
+                    <div style={{width: '300px', minHeight: '80vh'}}>
                         <Todolist
                             todolist={tl}
                             key={tl.id}

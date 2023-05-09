@@ -1,14 +1,14 @@
-import {tasksReducer} from '../features/todolistsList/todolist/task/tasks-reducer';
-import {todolistsReducer} from '../features/todolistsList/todolist/todolists-reducer';
 import {ActionCreatorsMapObject, bindActionCreators, combineReducers} from 'redux';
 import thunk from 'redux-thunk'
 import {appReducer} from "./app-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {authReducer} from "../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {useMemo} from "react";
+import {tasksReducer, todolistsReducer} from "../features/todolistsList";
+import {authReducer} from "../features/Auth/auth-reducer";
 
 // объединяя reducer-ы с помощью combineReducers,
+
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: tasksReducer,

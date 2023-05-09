@@ -41,9 +41,6 @@ export const slice = createSlice({
     }
 })
 
-//reducer
-export const todolistsReducer = slice.reducer
-
 export const {
     changeTodolistFilterAC,
     changeTodolistEntityStatusAC

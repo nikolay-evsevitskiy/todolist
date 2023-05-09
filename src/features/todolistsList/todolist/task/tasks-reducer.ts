@@ -6,7 +6,7 @@ import {clearTasksAndTodolists} from "../../../../common/action/common.actions";
 import {addTodolist, fetchTodoLists, removeTodolist} from "../todolists-actions";
 import {addTask, fetchTask, removeTask, updateTask} from "./tasks-actions";
 
-const slice = createSlice({
+export const slice = createSlice({
     name: "tasks",
     initialState: {} as TaskStateType,
     reducers: {
@@ -63,8 +63,6 @@ const slice = createSlice({
             })
     }
 })
-//reducer
-export const tasksReducer = slice.reducer
 
 export const {changeTaskEntityStatusAC} = slice.actions
 //types
