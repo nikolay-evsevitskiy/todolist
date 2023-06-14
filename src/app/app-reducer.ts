@@ -10,7 +10,7 @@ export const initializeAppTC = createAsyncThunk('app/initializeApp', async (para
     }
 })
 //reducer
-const slice = createSlice({
+export const slice = createSlice({
     name: "app",
     initialState: {
         status: "idle",
